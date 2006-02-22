@@ -37,7 +37,6 @@ public class TestGalleryPlugin implements FredPlugin {
 			if (getelements[i].startsWith("page="))
 				page = Integer.parseInt(getelements[i].substring("page=".length()));
 		}
-			
 		
 		try {
 			/* Cache later! */
