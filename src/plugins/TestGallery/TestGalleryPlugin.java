@@ -145,3 +145,4 @@ public class TestGalleryPlugin implements FredPlugin {
 	}
 
 }
+
