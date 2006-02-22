@@ -2,7 +2,6 @@ package plugins;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.Date;
 import java.util.Random;
 
 import freenet.pluginmanager.*;
@@ -126,7 +125,6 @@ public class TestGallery implements FredPlugin, FredPluginHTTP {
 		
 		//int i = (int)System.currentTimeMillis()%1000;
 		while(goon) {
-			//System.err.println("Heartbeat from gallery-plugin: " + (new Date()));
 			/*
 			FetchResult fr;
 			try {
