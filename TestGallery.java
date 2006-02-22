@@ -126,7 +126,7 @@ public class TestGallery implements FredPlugin, FredPluginHTTP {
 		
 		//int i = (int)System.currentTimeMillis()%1000;
 		while(goon) {
-			System.err.println("Heartbeat from gallery-plugin: " + (new Date()));
+			//System.err.println("Heartbeat from gallery-plugin: " + (new Date()));
 			/*
 			FetchResult fr;
 			try {
