@@ -10,7 +10,7 @@ import freenet.client.FetchResult;
 import freenet.client.HighLevelSimpleClient;
 import freenet.keys.FreenetURI;
 
-public class TestGalleryPlugin implements FredPlugin {
+public class TestGallery implements FredPlugin {
 	boolean goon = true;
 	Random rnd = new Random();
 	PluginRespirator pr;
