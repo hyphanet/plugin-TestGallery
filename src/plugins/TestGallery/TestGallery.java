@@ -147,3 +147,4 @@ public class TestGallery implements FredPlugin, FredPluginHTTP {
 
 
 }
+
