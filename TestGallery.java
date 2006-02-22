@@ -1,11 +1,9 @@
-package freenet.plugin;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Date;
 import java.util.Random;
 
-import freenet.pluginmanager;
+import freenet.pluginmanager.*;
 import freenet.client.FetchException;
 import freenet.client.FetchResult;
 import freenet.client.HighLevelSimpleClient;
