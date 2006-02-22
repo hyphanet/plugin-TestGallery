@@ -11,7 +11,7 @@ import freenet.client.FetchResult;
 import freenet.client.HighLevelSimpleClient;
 import freenet.keys.FreenetURI;
 
-public class TestGallery implements FredPlugin {
+public class TestGallery implements FredPlugin, FredPluginHTTP {
 	boolean goon = true;
 	Random rnd = new Random();
 	PluginRespirator pr;
@@ -27,8 +27,13 @@ public class TestGallery implements FredPlugin {
 			return "";
 		}
 	}
-	
-	public String handleHTTPGet(String path) {
+	public String handleHTTPPut(String path) throws PluginHTTPException {
+		throw new PluginHTTPException();
+	}
+	public String handleHTTPPost(String path) throws PluginHTTPException {
+		throw new PluginHTTPException();
+	}
+	public String handleHTTPGet(String path) throws PluginHTTPException {
 		StringBuffer out = new StringBuffer();
 		String[] pathelements = path.split("\\?");
 		String uri = pathelements[0];
@@ -139,11 +144,6 @@ public class TestGallery implements FredPlugin {
 			}
 		}
 	}
-	
-	public boolean handles(int thing) {
-		return ((thing == FredPlugin.handleFproxy) ||
-				(thing == FredPlugin.handleFproxy) ||
-				(thing == FredPlugin.handleFproxy));
-	}
+
 
 }
