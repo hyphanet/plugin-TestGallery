@@ -2,6 +2,7 @@ package plugins;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.HashMap;
 import java.util.Random;
 
 import freenet.node.Node;
@@ -15,6 +16,7 @@ public class TestGallery implements FredPlugin, FredPluginHTTP {
 	boolean goon = true;
 	Random rnd = new Random();
 	PluginRespirator pr;
+	private static final String plugName = "TestGallery";
 	public void terminate() {
 		goon = false;
 	}
@@ -33,17 +35,52 @@ public class TestGallery implements FredPlugin, FredPluginHTTP {
 	public String handleHTTPPost(String path) throws PluginHTTPException {
 		throw new PluginHTTPException();
 	}
+	
+	private HashMap getElements(String path) {
+		String[] getelements = getArrayElement(path.split("\\?"),1).split("\\&");
+		HashMap ret = new HashMap();
+		for (int i = 0; i < getelements.length ; i++) {
+			int eqpos = getelements[i].indexOf("="); 
+			if (eqpos < 1)
+				// Unhandled so far
+				continue;
+			
+			String key = getelements[i].substring(0, eqpos);
+			String value = getelements[i].substring(eqpos + 1);
+
+			ret.put(key, value);
+			/*if (getelements[i].startsWith("page="))
+				page = Integer.parseInt(getelements[i].substring("page=".length()));
+				*/
+		}
+		return ret;
+	}
+	
+	private String mkDefaultPage() {
+		StringBuffer out = new StringBuffer();
+		out.append("<HTML><HEAD><TITLE>" + plugName + "</TITLE></HEAD><BODY>\n");
+		out.append("<CENTER><H1>" + plugName + "</H1><BR/><BR/><BR/>\n");
+		out.append("Load gallery from the following key:<br/>");
+		out.append("<form method=\"GET\"><input type=text name=\"uri\" size=80/><input type=submit value=\"Go!\"/></form>\n");
+		out.append("</CENTER></BODY></HTML>");
+		return out.toString();
+	}
+	
 	public String handleHTTPGet(String path) throws PluginHTTPException {
 		StringBuffer out = new StringBuffer();
 		String[] pathelements = path.split("\\?");
-		String uri = pathelements[0];
-		String[] getelements = getArrayElement(pathelements, 1).split("\\?");
-		int page = 1;
+		/*String[] getelements = getArrayElement(pathelements, 1).split("\\?");
 		for (int i = 0; i < getelements.length ; i++) {
 			if (getelements[i].startsWith("page="))
 				page = Integer.parseInt(getelements[i].substring("page=".length()));
+		}*/
+		HashMap getelem = getElements(path);
+		int page = (getelem.get("page") == null)?1:Integer.parseInt((String)getelem.get("page"));
+		String uri = (getelem.get("uri") == null)?pathelements[0]:(String)getelem.get("uri");
+		
+		if (uri.equals("")) {
+			return mkDefaultPage();
 		}
-			
 		
 		try {
 			int i = 0;
@@ -63,7 +100,7 @@ public class TestGallery implements FredPlugin, FredPluginHTTP {
 			//imgarr[0] == title;
 			out.append("<HTML><HEAD><TITLE>" + title + "</TITLE></HEAD><BODY>\n");
 			out.append("<CENTER><H1>" + title + "</H1><BR/>Page " + page + "<BR/><BR/>\n");
-			mkPageIndex(out, imgarr.length, page, uri);
+			mkPageIndex(out, imgarr.length, page, uri+"?");
 			out.append("<table><tr>\n");
 			int images = 0;
 			int flush = (page - 1)*6*4;
@@ -112,7 +149,7 @@ public class TestGallery implements FredPlugin, FredPluginHTTP {
 			}
 			out.append("</tr><table>\n");
 
-			mkPageIndex(out, imgarr.length, page, uri);
+			mkPageIndex(out, imgarr.length, page, uri+"?");
 			
 			
 			out.append("</CENTER></BODY></HTML>");
@@ -127,7 +164,7 @@ public class TestGallery implements FredPlugin, FredPluginHTTP {
 		for (int pg = 1 ; pg <= (int)Math.ceil((imgarrlength-1)/(6*4)) ; pg++) {
 			out.append("&nbsp;");
 			if (pg != page)
-				out.append("<a href=\""+uri+"?page="+pg+"\">["+pg+"]</a>");
+				out.append("<a href=\""+uri+"page="+pg+"\">["+pg+"]</a>");
 			else
 				out.append("["+pg+"]");
 			out.append("&nbsp;\n");
