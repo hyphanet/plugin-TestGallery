@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Random;
 
+import freenet.node.Node;
 import freenet.pluginmanager.*;
 import freenet.client.FetchException;
 import freenet.client.FetchResult;
@@ -45,6 +46,7 @@ public class TestGallery implements FredPlugin, FredPluginHTTP {
 			
 		
 		try {
+			int i = 0;
 			/* Cache later! */
 			HighLevelSimpleClient hlsc = pr.getHLSimpleClient();
 			String imglist = new String(hlsc.fetch(new FreenetURI(uri)).asByteArray()).trim();
@@ -57,13 +59,16 @@ public class TestGallery implements FredPlugin, FredPluginHTTP {
 			/* /Cache! */
 			
 			String[] imgarr = imglist.split("\n");
+			String title = (imgarr[0].trim().replaceAll("^freenet:", "").indexOf("@") == 3)?"Untitled":imgarr[i++];
 			//imgarr[0] == title;
-			out.append("<HTML><HEAD><TITLE>" + imgarr[0] + "</TITLE></HEAD><BODY>\n");
-			out.append("<CENTER><H1>" + imgarr[0] + "</H1><BR/>Page " + page + "<BR/><BR/>\n");
+			out.append("<HTML><HEAD><TITLE>" + title + "</TITLE></HEAD><BODY>\n");
+			out.append("<CENTER><H1>" + title + "</H1><BR/>Page " + page + "<BR/><BR/>\n");
+			mkPageIndex(out, imgarr.length, page, uri);
 			out.append("<table><tr>\n");
 			int images = 0;
 			int flush = (page - 1)*6*4;
-			for(int i = 1 ; (i < imgarr.length && images < 6*4); i++) {
+			
+			for(i = 1 ; (i < imgarr.length && images < 6*4); i++) {
 				// url | name | size
 				if (imgarr[i].trim().length() < 5)
 					continue;
@@ -84,14 +89,18 @@ public class TestGallery implements FredPlugin, FredPluginHTTP {
 				String iurl = getArrayElement(imginfo, 0).trim();
 				iurl = iurl.replaceAll("^URI: ", "");
 				iurl = iurl.replaceAll("^freenet:", "");
-				iurl = "/" + iurl;
+				if (!iurl.startsWith("/"))
+					iurl = "/" + iurl;
 				
 				
 				
 				out.append("<td align=\"center\" valign=\"top\" width=\"102px\">\n");
 				out.append("  <a title=\""+iname+"\" href=\"" + iurl + "\"><img src=\"" + iurl + "\" border=\"0\" width=\"100\"><br/>\n");
-				out.append("  <font size=\"-2\">\"" + isname + "\"</font>\n");
+				if (imginfo.length > 1) {
+					out.append("  <font size=\"-2\">\"" + isname + "\"</font>\n");
+				}
 				out.append("  </a>\n");
+					
 				for (int j = 2 ; j < imginfo.length ; j++)
 					out.append("  <br><font size=\"-2\">" + imginfo[j].trim() + "</font>\n");
 				out.append("</td>\n");
@@ -102,14 +111,8 @@ public class TestGallery implements FredPlugin, FredPluginHTTP {
 				}
 			}
 			out.append("</tr><table>\n");
-			for (int pg = 1 ; pg <= (int)Math.ceil((imgarr.length-1)/(6*4)) ; pg++) {
-				out.append("&nbsp;");
-				if (pg != page)
-					out.append("<a href=\""+uri+"?page="+pg+"\">["+pg+"]</a>");
-				else
-					out.append("["+pg+"]");
-				out.append("&nbsp;\n");
-			}
+
+			mkPageIndex(out, imgarr.length, page, uri);
 			
 			
 			out.append("</CENTER></BODY></HTML>");
@@ -117,6 +120,17 @@ public class TestGallery implements FredPlugin, FredPluginHTTP {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			return e.toString();// e.printStackTrace();
+		}
+	}
+	
+	private void mkPageIndex(StringBuffer out, int imgarrlength, int page, String uri) {
+		for (int pg = 1 ; pg <= (int)Math.ceil((imgarrlength-1)/(6*4)) ; pg++) {
+			out.append("&nbsp;");
+			if (pg != page)
+				out.append("<a href=\""+uri+"?page="+pg+"\">["+pg+"]</a>");
+			else
+				out.append("["+pg+"]");
+			out.append("&nbsp;\n");
 		}
 	}
 
