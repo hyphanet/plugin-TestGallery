@@ -13,6 +13,9 @@ import freenet.client.HighLevelSimpleClient;
 import freenet.keys.FreenetURI;
 
 public class TestGallery implements FredPlugin, FredPluginHTTP {
+	
+	private final static String DEFAULT_GALLERY_URI = "CHK@sTcjGeT~bWxycEvhidh7QYh9J9fBT6YjiXrfkzsC5fQ,~dt~6lS7idVfF09oqnzMI~nXo8V-HN4T6Y7FisfyWDU,AAEA--8";
+	
 	boolean goon = true;
 	Random rnd = new Random();
 	PluginRespirator pr;
@@ -29,10 +32,10 @@ public class TestGallery implements FredPlugin, FredPluginHTTP {
 			return "";
 		}
 	}
-	public String handleHTTPPut(String path) throws PluginHTTPException {
+	public String handleHTTPPut(HTTPRequest request) throws PluginHTTPException {
 		throw new PluginHTTPException();
 	}
-	public String handleHTTPPost(String path) throws PluginHTTPException {
+	public String handleHTTPPost(HTTPRequest request) throws PluginHTTPException {
 		throw new PluginHTTPException();
 	}
 	
@@ -61,22 +64,18 @@ public class TestGallery implements FredPlugin, FredPluginHTTP {
 		out.append("<HTML><HEAD><TITLE>" + plugName + "</TITLE></HEAD><BODY>\n");
 		out.append("<CENTER><H1>" + plugName + "</H1><BR/><BR/><BR/>\n");
 		out.append("Load gallery from the following key:<br/>");
-		out.append("<form method=\"GET\"><input type=text name=\"uri\" size=80/><input type=submit value=\"Go!\"/></form>\n");
+		out.append("<form method=\"GET\">");
+		out.append("<input type=text name=\"uri\" value=\""+DEFAULT_GALLERY_URI+"\"size=80/>");
+		out.append("<input type=submit value=\"Go!\"/></form>\n");
 		out.append("</CENTER></BODY></HTML>");
 		return out.toString();
 	}
 	
-	public String handleHTTPGet(String path) throws PluginHTTPException {
+	public String handleHTTPGet(HTTPRequest request) throws PluginHTTPException {
 		StringBuffer out = new StringBuffer();
-		String[] pathelements = path.split("\\?");
-		/*String[] getelements = getArrayElement(pathelements, 1).split("\\?");
-		for (int i = 0; i < getelements.length ; i++) {
-			if (getelements[i].startsWith("page="))
-				page = Integer.parseInt(getelements[i].substring("page=".length()));
-		}*/
-		HashMap getelem = getElements(path);
-		int page = (getelem.get("page") == null)?1:Integer.parseInt((String)getelem.get("page"));
-		String uri = (getelem.get("uri") == null)?pathelements[0]:(String)getelem.get("uri");
+
+		int page = request.getIntParam("page", 1);
+		String uri = request.getParam("uri", request.getPath());
 		
 		if (uri.equals("")) {
 			return mkDefaultPage();
