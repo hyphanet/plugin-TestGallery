@@ -12,14 +12,16 @@ import freenet.client.FetchResult;
 import freenet.client.HighLevelSimpleClient;
 import freenet.keys.FreenetURI;
 
-public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThreadless {
+public class TestGallery implements FredPlugin, FredPluginHTTP {
 	
 	private final static String DEFAULT_GALLERY_URI = "CHK@sTcjGeT~bWxycEvhidh7QYh9J9fBT6YjiXrfkzsC5fQ,~dt~6lS7idVfF09oqnzMI~nXo8V-HN4T6Y7FisfyWDU,AAEA--8";
+	boolean goon = true;
 	
 	Random rnd = new Random();
 	PluginRespirator pr;
 	private static final String plugName = "TestGallery";
 	public void terminate() {
+		goon = false;
 	}
 	
 	private String getArrayElement(String[] array, int element) {
@@ -170,6 +172,12 @@ public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThread
 
 	public void runPlugin(PluginRespirator pr) {
 		this.pr = pr;
+		while(goon){
+			try{
+				Thread.sleep(300000);
+			}catch (InterruptedException e) {
+			}
+		}	
 	}
 
 }
