@@ -12,16 +12,14 @@ import freenet.client.FetchResult;
 import freenet.client.HighLevelSimpleClient;
 import freenet.keys.FreenetURI;
 
-public class TestGallery implements FredPlugin, FredPluginHTTP {
+public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThreadless {
 	
 	private final static String DEFAULT_GALLERY_URI = "CHK@sTcjGeT~bWxycEvhidh7QYh9J9fBT6YjiXrfkzsC5fQ,~dt~6lS7idVfF09oqnzMI~nXo8V-HN4T6Y7FisfyWDU,AAEA--8";
 	
-	boolean goon = true;
 	Random rnd = new Random();
 	PluginRespirator pr;
 	private static final String plugName = "TestGallery";
 	public void terminate() {
-		goon = false;
 	}
 	
 	private String getArrayElement(String[] array, int element) {
@@ -172,25 +170,6 @@ public class TestGallery implements FredPlugin, FredPluginHTTP {
 
 	public void runPlugin(PluginRespirator pr) {
 		this.pr = pr;
-		
-		//int i = (int)System.currentTimeMillis()%1000;
-		while(goon) {
-			/*
-			FetchResult fr;
-			try {
-				fr = pr.getHLSimpleClient().fetch(new FreenetURI("freenet:CHK@j-v1zc0cuN3wlaCpxlKd6vT6c1jAnT9KiscVjfzLu54,q9FIlJSh8M1I1ymRBz~A0fsIcGkvUYZahZb5j7uepLA,AAEA--8"));
-				System.err.println("  Got data from key, length = " + fr.size() + " Message: "
-						+ new String(fr.asByteArray()).trim());
-			} catch (Exception e) {
-			}
-			*/
-			try {
-				Thread.sleep(300000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-			}
-		}
 	}
 
 }
