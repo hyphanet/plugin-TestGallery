@@ -12,7 +12,7 @@ import freenet.client.FetchResult;
 import freenet.client.HighLevelSimpleClient;
 import freenet.keys.FreenetURI;
 
-public class TestGallery implements FredPlugin, FredPluginHTTP {
+public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThreadless {
 	
 	private final static String DEFAULT_GALLERY_URI = "CHK@sTcjGeT~bWxycEvhidh7QYh9J9fBT6YjiXrfkzsC5fQ,~dt~6lS7idVfF09oqnzMI~nXo8V-HN4T6Y7FisfyWDU,AAEA--8";
 	boolean goon = true;
@@ -172,12 +172,14 @@ public class TestGallery implements FredPlugin, FredPluginHTTP {
 
 	public void runPlugin(PluginRespirator pr) {
 		this.pr = pr;
+		/*
 		while(goon){
 			try{
 				Thread.sleep(300000);
 			}catch (InterruptedException e) {
 			}
-		}	
+		}
+		*/
 	}
 
 }
