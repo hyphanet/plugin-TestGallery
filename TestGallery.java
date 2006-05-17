@@ -1,15 +1,13 @@
 package plugins;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
+
 import java.util.HashMap;
 import java.util.Random;
 
-import freenet.node.Node;
+
 import freenet.pluginmanager.*;
-import freenet.client.FetchException;
-import freenet.client.FetchResult;
 import freenet.client.HighLevelSimpleClient;
+import freenet.clients.http.HTTPRequest;
 import freenet.keys.FreenetURI;
 
 public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThreadless {
