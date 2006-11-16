@@ -98,9 +98,9 @@ public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThread
 			String[] imgarr = imglist.split("\n");
 			String title = (imgarr[0].trim().replaceAll("^freenet:", "").indexOf("@") == 3)?"Untitled":imgarr[i++];
 			//imgarr[0] == title;
-			out.append("<HTML><HEAD><TITLE>" + title + "</TITLE></HEAD><BODY>\n");
-			out.append("<CENTER><H1>" + title + "</H1><BR/>Page " + page + "<BR/><BR/>\n");
-			mkPageIndex(out, imgarr.length, page, uri+"?");
+            out.append("<HTML><HEAD><TITLE>").append(title).append("</TITLE></HEAD><BODY>\n");
+            out.append("<CENTER><H1>").append(title).append("</H1><BR/>Page ").append(page).append("<BR/><BR/>\n");
+			mkPageIndex(out, imgarr.length, page, uri+ '?');
 			out.append("<table><tr>\n");
 			int images = 0;
 			int flush = (page - 1)*6*4;
@@ -127,19 +127,19 @@ public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThread
 				iurl = iurl.replaceAll("^URI: ", "");
 				iurl = iurl.replaceAll("^freenet:", "");
 				if (!iurl.startsWith("/"))
-					iurl = "/" + iurl;
+					iurl = '/' + iurl;
 				
 				
 				
 				out.append("<td align=\"center\" valign=\"top\" width=\"102px\">\n");
-				out.append("  <a title=\""+iname+"\" href=\"" + iurl + "\"><img src=\"" + iurl + "\" border=\"0\" width=\"100\"><br/>\n");
+                out.append("  <a title=\"").append(iname).append("\" href=\"").append(iurl).append("\"><img src=\"").append(iurl).append("\" border=\"0\" width=\"100\"><br/>\n");
 				if (imginfo.length > 1) {
-					out.append("  <font size=\"-2\">\"" + isname + "\"</font>\n");
+                    out.append("  <font size=\"-2\">\"").append(isname).append("\"</font>\n");
 				}
 				out.append("  </a>\n");
 					
 				for (int j = 2 ; j < imginfo.length ; j++)
-					out.append("  <br><font size=\"-2\">" + imginfo[j].trim() + "</font>\n");
+                    out.append("  <br><font size=\"-2\">").append(imginfo[j].trim()).append("</font>\n");
 				out.append("</td>\n");
 				
 				// new row?
@@ -149,7 +149,7 @@ public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThread
 			}
 			out.append("</tr><table>\n");
 
-			mkPageIndex(out, imgarr.length, page, uri+"?");
+			mkPageIndex(out, imgarr.length, page, uri+ '?');
 			
 			
 			out.append("</CENTER></BODY></HTML>");
@@ -164,9 +164,9 @@ public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThread
 		for (int pg = 1 ; pg <= (int)Math.ceil((imgarrlength-1)/(6*4)) ; pg++) {
 			out.append("&nbsp;");
 			if (pg != page)
-				out.append("<a href=\""+uri+"page="+pg+"\">["+pg+"]</a>");
+                out.append("<a href=\"").append(uri).append("page=").append(pg).append("\">[").append(pg).append("]</a>");
 			else
-				out.append("["+pg+"]");
+                out.append('[').append(pg).append(']');
 			out.append("&nbsp;\n");
 		}
 	}
