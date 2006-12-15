@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.Random;
 
 import freenet.client.HighLevelSimpleClient;
-import freenet.clients.http.HTTPRequest;
 import freenet.keys.FreenetURI;
 import freenet.pluginmanager.FredPlugin;
 import freenet.pluginmanager.FredPluginHTTP;
 import freenet.pluginmanager.FredPluginThreadless;
 import freenet.pluginmanager.PluginHTTPException;
 import freenet.pluginmanager.PluginRespirator;
+import freenet.support.api.HTTPRequest;
 
 public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThreadless {
 	
