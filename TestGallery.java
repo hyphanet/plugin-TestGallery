@@ -1,7 +1,6 @@
 package plugins.TestGallery;
 
 
-import java.util.HashMap;
 import java.util.Random;
 
 import freenet.client.HighLevelSimpleClient;
@@ -38,26 +37,6 @@ public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThread
 	}
 	public String handleHTTPPost(HTTPRequest request) throws PluginHTTPException {
 		return null;
-	}
-	
-	private HashMap getElements(String path) {
-		String[] getelements = getArrayElement(path.split("\\?"),1).split("\\&");
-		HashMap ret = new HashMap();
-		for (int i = 0; i < getelements.length ; i++) {
-			int eqpos = getelements[i].indexOf("="); 
-			if (eqpos < 1)
-				// Unhandled so far
-				continue;
-			
-			String key = getelements[i].substring(0, eqpos);
-			String value = getelements[i].substring(eqpos + 1);
-
-			ret.put(key, value);
-			/*if (getelements[i].startsWith("page="))
-				page = Integer.parseInt(getelements[i].substring("page=".length()));
-				*/
-		}
-		return ret;
 	}
 	
 	private String mkDefaultPage() {
