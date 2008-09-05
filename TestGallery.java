@@ -40,7 +40,7 @@ public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThread
 	}
 	
 	private String mkDefaultPage() {
-		StringBuffer out = new StringBuffer();
+		StringBuilder out = new StringBuilder();
 		out.append("<HTML><HEAD><TITLE>" + plugName + "</TITLE></HEAD><BODY>\n");
 		out.append("<CENTER><H1>" + plugName + "</H1><BR/><BR/><BR/>\n");
 		out.append("Load gallery from the following key:<br/>");
@@ -52,7 +52,7 @@ public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThread
 	}
 	
 	public String handleHTTPGet(HTTPRequest request) throws PluginHTTPException {
-		StringBuffer out = new StringBuffer();
+		StringBuilder out = new StringBuilder();
 
 		int page = request.getIntParam("page", 1);
 		String uri = request.getParam("uri", request.getPath());
@@ -139,7 +139,7 @@ public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThread
 		}
 	}
 	
-	private void mkPageIndex(StringBuffer out, int imgarrlength, int page, String uri) {
+	private void mkPageIndex(StringBuilder out, int imgarrlength, int page, String uri) {
 		for (int pg = 1 ; pg <= (int)Math.ceil((imgarrlength-1)/(6*4)) ; pg++) {
 			out.append("&nbsp;");
 			if (pg != page)
