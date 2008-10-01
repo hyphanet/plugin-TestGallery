@@ -32,9 +32,6 @@ public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThread
 			return "";
 		}
 	}
-	public String handleHTTPPut(HTTPRequest request) throws PluginHTTPException {
-		return null;
-	}
 	public String handleHTTPPost(HTTPRequest request) throws PluginHTTPException {
 		return null;
 	}
