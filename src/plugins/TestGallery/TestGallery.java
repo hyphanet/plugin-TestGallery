@@ -11,7 +11,12 @@ import freenet.pluginmanager.FredPluginThreadless;
 import freenet.pluginmanager.PluginHTTPException;
 import freenet.pluginmanager.PluginRespirator;
 import freenet.support.api.HTTPRequest;
+import freenet.support.HTMLEncoder;
 
+// FIXME refactor to use HTMLNode's.
+// FIXME test
+// FIXME get rid???
+// Should be safe now that we pass all displayed strings through HTMLEncoder...
 public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThreadless {
 	
 	private final static String DEFAULT_GALLERY_URI = "CHK@sTcjGeT~bWxycEvhidh7QYh9J9fBT6YjiXrfkzsC5fQ,~dt~6lS7idVfF09oqnzMI~nXo8V-HN4T6Y7FisfyWDU,AAEA--8";
@@ -74,8 +79,8 @@ public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThread
 			String[] imgarr = imglist.split("\n");
 			String title = (imgarr[0].trim().replaceAll("^freenet:", "").indexOf("@") == 3)?"Untitled":imgarr[i++];
 			//imgarr[0] == title;
-            out.append("<HTML><HEAD><TITLE>").append(title).append("</TITLE></HEAD><BODY>\n");
-            out.append("<CENTER><H1>").append(title).append("</H1><BR/>Page ").append(page).append("<BR/><BR/>\n");
+            out.append("<HTML><HEAD><TITLE>").append(HTMLEncoder.encode(title)).append("</TITLE></HEAD><BODY>\n");
+            out.append("<CENTER><H1>").append(HTMLEncoder.encode(title)).append("</H1><BR/>Page ").append(page).append("<BR/><BR/>\n");
 			mkPageIndex(out, imgarr.length, page, uri+ '?');
 			out.append("<table><tr>\n");
 			int images = 0;
@@ -108,14 +113,14 @@ public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThread
 				
 				
 				out.append("<td align=\"center\" valign=\"top\" width=\"102px\">\n");
-                out.append("  <a title=\"").append(iname).append("\" href=\"").append(iurl).append("\"><img src=\"").append(iurl).append("\" border=\"0\" width=\"100\"><br/>\n");
+                out.append("  <a title=\"").append(HTMLEncoder.encode(iname)).append("\" href=\"").append(HTMLEncoder.encode(iurl)).append("\"><img src=\"").append(HTMLEncoder.encode(iurl)).append("\" border=\"0\" width=\"100\"><br/>\n");
 				if (imginfo.length > 1) {
-                    out.append("  <font size=\"-2\">\"").append(isname).append("\"</font>\n");
+                    out.append("  <font size=\"-2\">\"").append(HTMLEncoder.encode(isname)).append("\"</font>\n");
 				}
 				out.append("  </a>\n");
 					
 				for (int j = 2 ; j < imginfo.length ; j++)
-                    out.append("  <br><font size=\"-2\">").append(imginfo[j].trim()).append("</font>\n");
+                    out.append("  <br><font size=\"-2\">").append(HTMLEncoder.encode(imginfo[j].trim())).append("</font>\n");
 				out.append("</td>\n");
 				
 				// new row?
@@ -140,7 +145,7 @@ public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThread
 		for (int pg = 1 ; pg <= (int)Math.ceil((imgarrlength-1)/(6*4)) ; pg++) {
 			out.append("&nbsp;");
 			if (pg != page)
-                out.append("<a href=\"").append(uri).append("page=").append(pg).append("\">[").append(pg).append("]</a>");
+                out.append("<a href=\"").append(HTMLEncoder.encode(uri)).append("page=").append(pg).append("\">[").append(pg).append("]</a>");
 			else
                 out.append('[').append(pg).append(']');
 			out.append("&nbsp;\n");
