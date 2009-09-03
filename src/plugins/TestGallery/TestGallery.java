@@ -7,6 +7,7 @@ import freenet.client.HighLevelSimpleClient;
 import freenet.keys.FreenetURI;
 import freenet.pluginmanager.FredPlugin;
 import freenet.pluginmanager.FredPluginHTTP;
+import freenet.pluginmanager.FredPluginRealVersioned;
 import freenet.pluginmanager.FredPluginThreadless;
 import freenet.pluginmanager.PluginHTTPException;
 import freenet.pluginmanager.PluginRespirator;
@@ -17,10 +18,12 @@ import freenet.support.HTMLEncoder;
 // FIXME test
 // FIXME get rid???
 // Should be safe now that we pass all displayed strings through HTMLEncoder...
-public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThreadless {
+public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThreadless, FredPluginRealVersioned {
 	
 	private final static String DEFAULT_GALLERY_URI = "CHK@sTcjGeT~bWxycEvhidh7QYh9J9fBT6YjiXrfkzsC5fQ,~dt~6lS7idVfF09oqnzMI~nXo8V-HN4T6Y7FisfyWDU,AAEA--8";
 	private volatile boolean goon = true;
+	
+	private int VERSION = 1;
 	
 	Random rnd = new Random();
 	PluginRespirator pr;
@@ -162,6 +165,10 @@ public class TestGallery implements FredPlugin, FredPluginHTTP, FredPluginThread
 			}
 		}
 		*/
+	}
+
+	public long getRealVersion() {
+		return VERSION;
 	}
 
 }
